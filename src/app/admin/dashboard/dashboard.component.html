@@ -1,0 +1,82 @@
+<div class="container py-5">
+  <div class="row"></div>
+  <div class="col-12 col-md-10 col-lg-8">
+    <div class="bg white shadow rounded p-4">
+      <h1 class="display-6 text-dark">Creer une annonce</h1>
+      <hr class="bg-dark mb-5">
+      <form [formGroup]="offerForm" (ngSubmit)="onSubmitOfferForm()">
+        <input type="text" formControlName="id" hidden>
+      <div class="form-group mb-3">
+      <label for="offerTitleInput">Titre</label>
+      <input type="text" formControlName="titr" id="" class="form-control" >
+      </div>
+      <div class="px-3" *ngIf="currentOfferPhotoUrl && currentOfferPhotoUrl != ''">
+        <img [src]="currentOfferPhotoUrl" alt="Offer Photo" class="w-100 rounded">
+      </div>
+      <div class="mb-3">
+        <label for="offerPhotoInput" class="form-label">Choisir une image</label>
+        <input type="file"  id="offerPhotoInput" class="form-control" formControlName="photo" (change)="onChangeOfferPhoto($event)">
+      </div>
+      <div class="form-group mb-3">
+      <label for="offerMarqueInput" >Marque</label>
+      <input type="text" formControlName="marque" id="offerMarqueInput" class="form-control" appUppercaseInput>
+      </div>
+      <div class="form-group mb-3">
+        <label for="offerModelInput">Modele</label>
+        <input type="text" formControlName="model" id="offerModelInput" class="form-control" >
+        </div>
+      <div class="form-group mb-3">
+        <label for="offerDescriptonInput">Description</label>
+       <textarea formControlName="description" id="offerDescriptonInput" class="w-100 form-control" rows="5"></textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label for="offerPricelInput">Prix</label>
+          <input type="number" formControlName="prix" id="offerPricelInput" class="form-control" >
+          </div>
+          <div class="d-flex">
+            <button type="submit" class="btn btn-success mx-auto" [disabled]=offerForm.invalid>Enregistrer</button>
+            <p class="text-warning" *ngIf="offerForm.invalid">Formulaire invalide </p>
+          </div>
+     </form>
+    </div>
+  </div>
+  <div class="bg-white shadow mb-3">
+    <h2 class="text-secondary">Liste des element mentionne</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Image</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Marque</th>
+          <th scope="col">Modele</th>
+          <th scope="col">Description</th>
+          <th scope="col">Prix</th>
+          <th scope="col">Action</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let offer of offers let i =index">
+          <td>{{i}}</td>
+          <td>
+            <img  *ngIf="offer.photo" [src]="offer.photo | safeUrl" alt="Offer Photo" width="90">
+          </td>
+          <td>{{offer.titre}}</td>
+          <td>{{offer.marque}}</td>
+          <td>{{offer.model}}</td>
+          <td>{{offer.description }}</td>
+          <td>{{offer.prix | currency:'EUR':'symbol':'4.2-2'}}</td>
+          <td>
+            <button type="button" class=" btn-primary" (click)="onEditOffer(offer)">Modifier</button>
+            <button type="button" class="btn-danger" (click)="onDelete(offer.id)">Supprimer</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
